@@ -37,7 +37,7 @@
       const accessToken = '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';
 
       function loadTokenState() {
-        fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/${filePath}`, {
+        fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
           headers: {
             'Authorization': `token ${accessToken}`
           }
