@@ -33,7 +33,7 @@
 
         // Функция для загрузки состояния токенов
         function loadTokenState() {
-            fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
+            fetch(`https://api.github.com/repos/s1nglgod/AccessBotSite/contents/config.yaml`, {
                 headers: {
                     'Authorization': `token ${accessToken}`
                 }
@@ -59,7 +59,7 @@
             const encodedContent = toBase64(yamlContent); // Кодируем содержимое
 
             // Получаем SHA файла перед обновлением
-            fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
+            fetch(`https://api.github.com/repos/s1nglgod/AccessBotSite/contents/config.yaml`, {
                 headers: {
                     'Authorization': `token ${accessToken}`
                 }
@@ -74,7 +74,7 @@
                 const sha = data.sha; // Получаем SHA файла
 
                 // Теперь отправляем запрос на обновление файла
-                return fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
+                return fetch(`https://api.github.com/repos/s1nglgod/AccessBotSite/contents/config.yaml`, {
                     method: 'PUT',
                     headers: {
                         'Authorization': `token ${accessToken}`,
