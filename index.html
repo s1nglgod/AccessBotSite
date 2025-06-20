@@ -36,7 +36,7 @@
             
             fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
                 headers: {
-                    'Authorization': `token ${accessToken}`
+                    'auth': `token ${accessToken}`
                 }
             })
     .then(response => {
@@ -63,7 +63,7 @@
     // Получаем SHA файла перед обновлением
     fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
         headers: {
-            'Authorization': `token ${accessToken}`
+            'auth': `token ${accessToken}`
         }
     })
     .then(response => {
