@@ -55,50 +55,50 @@
 
         // Функция для сохранения состояния токенов
         function saveTokenState() {
-            const yamlContent = jsyaml.dump(tokenState);
-            const encodedContent = toBase64(yamlContent); // Кодируем содержимое
+    const yamlContent = jsyaml.dump(tokenState);
+    const encodedContent = toBase64(yamlContent); // Кодируем содержимое
 
-            // Получаем SHA файла перед обновлением
-            fetch(`https://api.github.com/repos/s1nglgod/AccessBotSite/contents/config.yaml`, {
-                headers: {
-                    'Authorization': `token ${accessToken}`
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Ошибка при получении SHA файла: ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                const sha = data.sha; // Получаем SHA файла
-
-                // Теперь отправляем запрос на обновление файла
-                return fetch(`https://api.github.com/repos/s1nglgod/AccessBotSite/contents/config.yaml`, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `token ${accessToken}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        message: 'Обновление состояния токенов',
-                        content: encodedContent,
-                        sha: sha // Указываем SHA файла
-                    })
-                });
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Ошибка при сохранении токенов: ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Состояние токенов успешно сохранено:', data);
-                loadTokenState(); // Перезагружаем состояние токенов после сохранения
-            })
-            .catch(error => console.error('Ошибка при сохранении токенов:', error));
+    // Получаем SHA файла перед обновлением
+    fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
+        headers: {
+            'Authorization': `token ${accessToken}`
         }
+    })
+    .then(response => {
+        console.log('Response status for SHA:', response.status); // Отладка: выводим статус ответа
+        if (!response.ok) {
+            throw new Error('Ошибка при получении SHA файла: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        const sha = data.sha; // Получаем SHA файла
+
+        // Теперь отправляем запрос на обновление файла
+        return fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `token ${accessToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: 'Обновление состояния токенов',
+                content: encodedContent,
+                sha: sha // Указываем SHA файла
+            })
+        });
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Ошибка при сохранении токенов: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Состояние токенов успешно сохранено:', data);
+    })
+    .catch(error => console.error('Ошибка при сохранении токенов:', error));
+}
 
         // Функция для обновления списка токенов в интерфейсе
         function updateTokenList() {
