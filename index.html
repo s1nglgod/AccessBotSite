@@ -62,7 +62,7 @@ function saveTokenState() {
     // Получаем SHA файла перед обновлением
     fetch(`https://api.github.com/repos/s1nglgod/AccessBotSite/contents/config.yaml`, {
         headers: {
-            'Authorization': `token ${accessToken}`
+            'Authorization': `${accessToken}`
         }
     })
     .then(response => {
