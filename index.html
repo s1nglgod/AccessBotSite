@@ -77,8 +77,7 @@
         const sha = data.sha; // Получаем SHA файла
 
         // Теперь отправляем запрос на обновление файла
-        return fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}?ref=branch-name`, {
-            method: 'PUT',
+        return fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
             headers: {
                 'Authorization': `${accessToken}`,
                 'Content-Type': 'application/json'
