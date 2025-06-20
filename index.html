@@ -33,16 +33,12 @@
 
         // Функция для загрузки состояния токенов
         function loadTokenState() {
-            fetch(`https://raw.githubusercontent.com/s1nglgod/AccessBotSite/main/config.yaml`, {
+            
+            fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
                 headers: {
                     'Authorization': `token ${accessToken}`
                 }
             })
-    //fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
-    //    headers: {
-    //        'Authorization': `token ${accessToken}`
-    //    }
-    //})
     .then(response => {
         console.log('Response status:', response.status); // Отладка: выводим статус ответа
         if (!response.ok) {
