@@ -58,12 +58,12 @@
         // Функция для сохранения состояния токенов
         function saveTokenState() {
     const yamlContent = jsyaml.dump(tokenState);
-    const encodedContent = toBase64(yamlContent); // Кодируем содержимое
+    const encodedContent = btoa(yamlContent); // Кодируем содержимое
 
     // Получаем SHA файла перед обновлением
-    fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
+    fetch(`https://api.github.com/repos/s1nglgod/AccessBotSite/contents/config.yaml`, {
         headers: {
-            'Authorization': `${accessToken}`
+            'Authorization': `token ${accessToken}`
         }
     })
     .then(response => {
@@ -77,7 +77,7 @@
         const sha = data.sha; // Получаем SHA файла
 
         // Теперь отправляем запрос на обновление файла
-        fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
+        return fetch(`https://api.github.com/repos/s1nglgod/AccessBotSite/contents/config.yaml`, {
             method: 'PUT',
             headers: {
                 'Authorization': `token ${accessToken}`,
@@ -91,6 +91,7 @@
         });
     })
     .then(response => {
+        console.log('Response status for PUT:', response.status); // Отладка: выводим статус ответа
         if (!response.ok) {
             throw new Error('Ошибка при сохранении токенов: ' + response.statusText);
         }
@@ -101,19 +102,6 @@
     })
     .catch(error => console.error('Ошибка при сохранении токенов:', error));
 }
-
-        // Функция для обновления списка токенов в интерфейсе
-        function updateTokenList() {
-            const tokenListElement = document.getElementById('tokenList');
-            tokenListElement.innerHTML = ''; // Очищаем текущий список
-
-            allTokens.forEach(token => {
-                const listItem = document.createElement('li');
-                listItem.textContent = token;
-                tokenListElement.appendChild(listItem);
-            });
-        }
-
         // Обработчик события для добавления токена
         document.getElementById('addTokenButton').addEventListener('click', () => {
             const tokenInput = document.getElementById('tokenInput');
