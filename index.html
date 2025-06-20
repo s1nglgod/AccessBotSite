@@ -102,6 +102,26 @@
     })
     .catch(error => console.error('Ошибка при сохранении токенов:', error));
 }
+
+        function updateTokenList() {
+            const tokenListElement = document.getElementById('tokenList'); // Предполагаем, что у вас есть элемент с id 'tokenList'
+            tokenListElement.innerHTML = ''; // Очищаем текущий список
+
+            // Проверяем, есть ли токены
+            if (allTokens.length === 0) {
+                tokenListElement.innerHTML = '<li>Нет доступных токенов</li>';
+                return;
+            }
+
+            // Создаем элементы списка для каждого токена
+            allTokens.forEach(token => {
+                const listItem = document.createElement('li');
+                listItem.textContent = token; // Устанавливаем текст элемента списка
+                tokenListElement.appendChild(listItem); // Добавляем элемент в список
+            });
+        }
+
+        
         // Обработчик события для добавления токена
         document.getElementById('addTokenButton').addEventListener('click', () => {
             const tokenInput = document.getElementById('tokenInput');
