@@ -55,10 +55,9 @@
     .catch(error => console.error('Ошибка при загрузке токенов:', error));
 }
 
-        // Функция для сохранения состояния токенов
-        function saveTokenState() {
+function saveTokenState() {
     const yamlContent = jsyaml.dump(tokenState);
-    const encodedContent = btoa(yamlContent); // Кодируем содержимое
+    const encodedContent = toBase64(yamlContent); // Используем новую функцию для кодирования
 
     // Получаем SHA файла перед обновлением
     fetch(`https://api.github.com/repos/s1nglgod/AccessBotSite/contents/config.yaml`, {
@@ -102,6 +101,55 @@
     })
     .catch(error => console.error('Ошибка при сохранении токенов:', error));
 }
+
+        
+//         // Функция для сохранения состояния токенов
+//         function saveTokenState() {
+//     const yamlContent = jsyaml.dump(tokenState);
+//     const encodedContent = btoa(yamlContent); // Кодируем содержимое
+
+//     // Получаем SHA файла перед обновлением
+//     fetch(`https://api.github.com/repos/s1nglgod/AccessBotSite/contents/config.yaml`, {
+//         headers: {
+//             'Authorization': `token ${accessToken}`
+//         }
+//     })
+//     .then(response => {
+//         console.log('Response status for SHA:', response.status); // Отладка: выводим статус ответа
+//         if (!response.ok) {
+//             throw new Error('Ошибка при получении SHA файла: ' + response.statusText);
+//         }
+//         return response.json();
+//     })
+//     .then(data => {
+//         const sha = data.sha; // Получаем SHA файла
+
+//         // Теперь отправляем запрос на обновление файла
+//         return fetch(`https://api.github.com/repos/s1nglgod/AccessBotSite/contents/config.yaml`, {
+//             method: 'PUT',
+//             headers: {
+//                 'Authorization': `token ${accessToken}`,
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify({
+//                 message: 'Обновление состояния токенов',
+//                 content: encodedContent,
+//                 sha: sha // Указываем SHA файла
+//             })
+//         });
+//     })
+//     .then(response => {
+//         console.log('Response status for PUT:', response.status); // Отладка: выводим статус ответа
+//         if (!response.ok) {
+//             throw new Error('Ошибка при сохранении токенов: ' + response.statusText);
+//         }
+//         return response.json();
+//     })
+//     .then(data => {
+//         console.log('Состояние токенов успешно сохранено:', data);
+//     })
+//     .catch(error => console.error('Ошибка при сохранении токенов:', error));
+// }
 
         function updateTokenList() {
             const tokenListElement = document.getElementById('tokenList'); // Предполагаем, что у вас есть элемент с id 'tokenList'
