@@ -33,25 +33,27 @@
 
         // Функция для загрузки состояния токенов
         function loadTokenState() {
-            fetch(`https://api.github.com/repos/s1nglgod/AccessBotSite/contents/config.yaml`, {
-                headers: {
-                    'Authorization': `token ${accessToken}`
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Сеть не в порядке: ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                const content = atob(data.content); // Декодируем содержимое
-                tokenState = jsyaml.load(content);
-                allTokens = Object.keys(tokenState);
-                updateTokenList(); // Обновите список токенов в интерфейсе
-            })
-            .catch(error => console.error('Ошибка при загрузке токенов:', error));
+    fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
+        headers: {
+            'Authorization': `token ${accessToken}`
         }
+    })
+    .then(response => {
+        console.log('Response status:', response.status); // Отладка: выводим статус ответа
+        if (!response.ok) {
+            throw new Error('Сеть не в порядке: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        const content = atob(data.content); // Декодируем содержимое
+        tokenState = jsyaml.load(content);
+        allTokens = Object.keys(tokenState);
+        updateTokenList(); // Обновите список токенов в интерфейсе
+    })
+    .catch(error => console.error('Ошибка при загрузке токенов:', error));
+}
+
 
         // Функция для сохранения состояния токенов
         function saveTokenState() {
